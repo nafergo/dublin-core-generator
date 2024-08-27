@@ -14,11 +14,46 @@
 	<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.anirows.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
-	<script type="text/javascript">
-	$(function() {
-	$( "input:button, input:submit").button();
-	});
-	</script>
+
+
+	<script>
+
+function saveTextAsFile() {
+
+var textToSave = document.getElementById("text").value;
+
+var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
+
+var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+
+var fileNameToSaveAs = "my-file-name.txt";
+
+var downloadLink = document.createElement("a");
+
+downloadLink.download = fileNameToSaveAs;
+
+downloadLink.innerHTML = "Download File";
+
+downloadLink.href = textToSaveAsURL;
+
+downloadLink.onclick = destroyClickedElement;
+
+downloadLink.style.display = "none";
+
+document.body.appendChild(downloadLink);
+
+downloadLink.click();
+
+}
+
+function destroyClickedElement(event) {
+
+document.body.removeChild(event.target);
+
+}
+
+</script>
+	
 </head>
 <body class="indexbody">
   <div class="container">
@@ -192,7 +227,7 @@
 		<div class="centerbox">
 		<div class="boxheader">Output Options</div>
 		  <div class="boxtext" style="padding-left:10px;position:relative;" id="outputopts">
-		  <form action="save.php" method="post" />
+		  <form id="myForm" method="post" />
 		    Display output as: <select id="outputType" name="outputType" onchange="showHideOutput();"><option value="xml">XML</option><option value="html">HTML</option><option value="xhtml">XHTML</option></select><br/>
 			  <div id="xmloptions" style="display:inline">
 			    <input type="checkbox" id="adddeclaration" class="checkbox" /><label>Include standard XML version/encoding declaration.</label><br/>
@@ -217,7 +252,7 @@
 			    <input type="checkbox" id="addlinkxqualified" class="checkbox" /><label>Include a &lt;link&gt; tag to the qualified DCTERMS element set.</label><br/>
 			  </div>
 			  <br/>
-			  <input type="button" value="Generate Metadata!" onclick="generateCode();" class="button" id="generatebutton"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Reset Page" onclick="javascript:location.reload(true)" class="button" id="resetbutton" />
+			  <input type="button" value="Generate Metadata!" onclick="saveTextAsFile()" class="button" id="generatebutton"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Reset Page" onclick="javascript:location.reload(true)" class="button" id="resetbutton" />
 		  </div>
 		</div>
 		<br/>
